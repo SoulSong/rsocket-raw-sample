@@ -16,7 +16,7 @@ import static com.shf.constant.Constants.PORT;
 
 /**
  * Description:
- * Channel(bi-directional streams) interaction model
+ * Channel(bi-directional streams) interaction model.
  *
  * @author: songhaifeng
  * @date: 2019/12/11 02:03

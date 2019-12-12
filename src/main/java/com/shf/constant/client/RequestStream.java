@@ -16,7 +16,9 @@ import reactor.core.publisher.Mono;
 
 /**
  * Description:
- * Request/stream  interaction model
+ * Request/stream  interaction model.
+ * Additional fetaure:
+ * - back pressure test
  *
  * @author: songhaifeng
  * @date: 2019/12/11 02:01

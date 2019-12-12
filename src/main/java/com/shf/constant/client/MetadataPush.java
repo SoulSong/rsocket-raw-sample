@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Description:
+ * Send metadata with Metadata-Push.
  *
  * @author: songhaifeng
  * @date: 2019/12/11 02:08

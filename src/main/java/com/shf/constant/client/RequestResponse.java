@@ -13,7 +13,7 @@ import static com.shf.constant.Constants.PORT;
 
 /**
  * Description:
- * Request/response  interaction model
+ * Request/response  interaction model.
  *
  * @author: songhaifeng
  * @date: 2019/12/11 01:30

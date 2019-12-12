@@ -31,7 +31,9 @@ import static com.shf.constant.Constants.PORT;
 
 /**
  * Description:
- * Fire-and-forget interaction model
+ * Fire-and-forget interaction model.
+ * Additional feature :
+ * - resume test
  *
  * @author: songhaifeng
  * @date: 2019/12/11 01:12
@@ -43,7 +45,7 @@ public class FireAndForget {
         /**
          * {@link RSocketFactory.ClientRSocketFactory)
          */
-        Payload setupPayload = DefaultPayload.create("clientId_001","connect-meta");
+        Payload setupPayload = DefaultPayload.create("clientId_001", "connect-meta");
         Duration tickPeriod = Duration.ofSeconds(20);
         Duration ackTimeout = Duration.ofSeconds(30);
         int missedAcks = 2;
@@ -86,9 +88,7 @@ public class FireAndForget {
                 .transport(TcpClientTransport.create(HOST, PORT))
                 .start();
         socket.blockOptional()
-                .ifPresent(rSocket -> {
-                    rSocket.fireAndForget(DefaultPayload.create("I am shf.", "requester-meta")).block();
-                });
+                .ifPresent(rSocket -> rSocket.fireAndForget(DefaultPayload.create("I am shf.", "requester-meta")).block());
         Thread.currentThread().join();
     }
 
