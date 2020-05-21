@@ -1,15 +1,15 @@
 package com.shf.constant.client;
 
 import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
+import io.rsocket.core.RSocketConnector;
+import io.rsocket.frame.decoder.PayloadDecoder;
 import io.rsocket.transport.netty.client.TcpClientTransport;
 import io.rsocket.util.DefaultPayload;
-
-import java.time.Duration;
-
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 import static com.shf.constant.Constants.HOST;
 import static com.shf.constant.Constants.PORT;
@@ -25,10 +25,10 @@ import static com.shf.constant.Constants.PORT;
 public class RequestChannel {
 
     public static void main(String[] args) {
-        Mono<RSocket> socket = RSocketFactory.connect()
+        Mono<RSocket> socket =  RSocketConnector.create()
                 .setupPayload(DefaultPayload.create("clientId_004", "connect-meta"))
-                .transport(TcpClientTransport.create(HOST, PORT))
-                .start();
+                .payloadDecoder(PayloadDecoder.ZERO_COPY)
+                .connect(TcpClientTransport.create(HOST, PORT));
 
         socket.blockOptional()
                 .ifPresent(rSocket -> {

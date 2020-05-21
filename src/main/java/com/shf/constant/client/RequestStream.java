@@ -1,17 +1,15 @@
 package com.shf.constant.client;
 
 import com.shf.constant.Constants;
-
 import io.rsocket.Payload;
 import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
+import io.rsocket.core.RSocketConnector;
+import io.rsocket.frame.decoder.PayloadDecoder;
 import io.rsocket.transport.netty.client.TcpClientTransport;
 import io.rsocket.util.DefaultPayload;
-
+import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 /**
@@ -29,10 +27,10 @@ public class RequestStream {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Mono<RSocket> socket = RSocketFactory.connect()
+        Mono<RSocket> socket =  RSocketConnector.create()
                 .setupPayload(DefaultPayload.create("clientId_003", "connect-meta"))
-                .transport(TcpClientTransport.create(Constants.HOST, Constants.PORT))
-                .start();
+                .payloadDecoder(PayloadDecoder.ZERO_COPY)
+                .connect(TcpClientTransport.create(Constants.HOST, Constants.PORT));
 
         socket.blockOptional()
                 .ifPresent(rSocket -> {
