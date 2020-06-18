@@ -1,10 +1,12 @@
 package com.shf.constant.client;
 
 import com.shf.constant.Constants;
+import io.netty.buffer.Unpooled;
 import io.rsocket.RSocket;
 import io.rsocket.core.RSocketConnector;
 import io.rsocket.frame.decoder.PayloadDecoder;
 import io.rsocket.transport.netty.client.TcpClientTransport;
+import io.rsocket.util.ByteBufPayload;
 import io.rsocket.util.DefaultPayload;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -27,8 +29,7 @@ public class MetadataPush {
 
         socket.blockOptional()
                 .ifPresent(rSocket -> {
-                    // Data will be removed when sent by `metadataPush`
-                    rSocket.metadataPush(DefaultPayload.create("shf", "requester-meta"))
+                    rSocket.metadataPush(ByteBufPayload.create(Unpooled.EMPTY_BUFFER,Unpooled.wrappedBuffer("requester-meta".getBytes()) ))
                             .doOnSuccess(c -> log.info("Metadata push successfully."))
                             .block();
                 });
